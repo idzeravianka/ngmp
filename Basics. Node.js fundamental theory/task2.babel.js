@@ -15,7 +15,7 @@ async function run () {
     csvStream,
     writeStream,
     (error) => {
-      error ? console.error('Something went wrong', err) : console.log('Success!');
+      error ? console.error('Something went wrong', error) : console.log('Success!');
     }
   )
 }
