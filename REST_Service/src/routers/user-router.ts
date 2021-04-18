@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { ValidationType } from '../enums/validation-type.enum';
-import { USER_API } from '../routes/user-api.enum';
-import { loginValidator, validateSchema } from '../validators';
-import { autoSuggestSchema, idSchema, createUserBodySchema } from './schemes';
+import { ValidationType } from '../validation/enums/validation-type.enum';
+import { USER_API } from '../configs/api-path-enum/user-api.enum';
+import { loginValidator, validateSchema } from '../validation/validators';
+import { autoSuggestSchema, idSchema, createUserBodySchema } from '../validation/schemes';
 import userController from './controllers/user.controller';
 
 const router = Router();
@@ -17,6 +17,7 @@ export default router
     .put(USER_API.UPDATE_USER,
         validateSchema(idSchema, ValidationType.Params),
         validateSchema(createUserBodySchema, ValidationType.Body),
+        loginValidator,
         userController.updateUser)
     .post(USER_API.CREATE_USER,
         loginValidator,
