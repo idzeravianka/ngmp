@@ -1,5 +1,4 @@
 
 import { Sequelize } from 'sequelize';
-import { env } from '../configs/env';
 
-export const sequelizeInstance = new Sequelize(env.dbUrl);
+export const sequelizeInstance = new Sequelize(process.env.DB_URL as string);
