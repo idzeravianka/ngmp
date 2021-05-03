@@ -1,49 +1,49 @@
 import { Request, Response } from 'express';
-import userService from '../services/user.service';
+import userService from '../../services/user.service';
 
 class UserController {
-    public getUserById(req: Request, res: Response): void {
+    public async getUserById(req: Request, res: Response): Promise<void> {
         try {
-            const user = userService.findUserById(req.params.id);
+            const user = await userService.findUserById(req.params.id);
             res.status(200).json(user);
         } catch (e) {
             res.status(404).json({ error: e.message });
         }
     }
 
-    public createUser(req: Request, res: Response): void {
+    public async createUser(req: Request, res: Response): Promise<void> {
         try {
-            userService.createUser(req.body);
+            await userService.createUser(req.body);
             res.status(200).json('OK');
         } catch (e) {
             res.status(404).json({ error: e.message });
         }
     }
 
-    public deleteUser(req: Request, res: Response): void {
+    public async deleteUser(req: Request, res: Response): Promise<void> {
         try {
-            userService.deleteUser(req.params.id);
+            await userService.deleteUser(req.params.id);
             res.status(200).json('OK');
         } catch (e) {
             res.status(404).json({ error: e.message });
         }
     }
 
-    public updateUser(req: Request, res: Response): void {
+    public async updateUser(req: Request, res: Response): Promise<void> {
         try {
-            userService.updateUser(req.params.id, req.body);
+            await userService.updateUser(req.params.id, req.body);
             res.status(200).json('OK');
         } catch (e) {
             res.status(404).json({ error: e.message });
         }
     }
 
-    public getAutoSuggestUsers(req: Request, res: Response): void {
+    public async getAutoSuggestUsers(req: Request, res: Response): Promise<void> {
         const loginSubstring = req.query.loginSubstring as string;
         const limit = Number(req.query.limit);
 
         try {
-            const results = userService.getAutoSuggestUsers(loginSubstring, limit);
+            const results = await userService.getAutoSuggestUsers(loginSubstring, limit);
             res.status(200).json(results);
         } catch (e) {
             res.status(404).json({ error: e.message });

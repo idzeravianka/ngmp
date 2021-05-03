@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { mockedUsers } from '../user/services/mocked-users';
+import { UserModel } from '../../models';
 
-export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
+export const loginValidator = async (req: Request, res: Response, next: NextFunction) => {
     const login = req.body.login;
 
-    const regexp = new RegExp(`^${login}$`);
-    const isLoginExist = mockedUsers.find(user => user.login.match(regexp));
+    const isLoginExist = await UserModel.findOne({ where: { login } });
 
     if (isLoginExist) {
         res.status(400).json({
