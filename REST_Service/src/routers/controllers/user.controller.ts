@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import userService from '../../services/user.service';
+import { controllerLogger } from '../../logger/controller-loger';
 
 class UserController {
     public async getUserById(req: Request, res: Response): Promise<void> {
@@ -7,6 +8,7 @@ class UserController {
             const user = await userService.findUserById(req.params.id);
             res.status(200).json(user);
         } catch (e) {
+            controllerLogger('findUserById', req.params.id, e.message);
             res.status(404).json({ error: e.message });
         }
     }
@@ -16,6 +18,7 @@ class UserController {
             await userService.createUser(req.body);
             res.status(200).json('OK');
         } catch (e) {
+            controllerLogger('createUser', JSON.stringify(req.body), e.message);
             res.status(404).json({ error: e.message });
         }
     }
@@ -25,6 +28,7 @@ class UserController {
             await userService.deleteUser(req.params.id);
             res.status(200).json('OK');
         } catch (e) {
+            controllerLogger('deleteUser', req.params.id, e.message);
             res.status(404).json({ error: e.message });
         }
     }
@@ -34,6 +38,7 @@ class UserController {
             await userService.updateUser(req.params.id, req.body);
             res.status(200).json('OK');
         } catch (e) {
+            controllerLogger('updateUser', `${req.params.id}, ${JSON.stringify(req.body)}`, e.message);
             res.status(404).json({ error: e.message });
         }
     }
@@ -46,6 +51,7 @@ class UserController {
             const results = await userService.getAutoSuggestUsers(loginSubstring, limit);
             res.status(200).json(results);
         } catch (e) {
+            controllerLogger('getAutoSuggestUsers', `${loginSubstring}, ${limit}`, e.message);
             res.status(404).json({ error: e.message });
         }
     }
