@@ -20,8 +20,8 @@ export default router
         loginValidator,
         userController.updateUser)
     .post(USER_API.CREATE_USER,
-        loginValidator,
         validateSchema(createUserBodySchema, ValidationType.Body),
+        loginValidator,
         userController.createUser)
     .post(USER_API.DELETE_USER,
         validateSchema(idSchema, ValidationType.Params),
