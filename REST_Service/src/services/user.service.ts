@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import jwt from 'jsonwebtoken';
 import { User, UserModel } from '../models';
 
 const { Op } = Sequelize;
@@ -41,6 +42,16 @@ class UserService {
             ],
             raw: true
         });
+    }
+
+    public async login(login: string, password: string): Promise<string | null> {
+        const user = await UserModel.findOne({ where: { login, password } });
+        if (!user) return null;
+        return UserService.generateToken(login);
+    }
+
+    public static generateToken(login: string): string {
+        return jwt.sign(login, process.env.SECRET_KEY as string);
     }
 }
 
