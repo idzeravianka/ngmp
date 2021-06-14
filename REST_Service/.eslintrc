@@ -33,7 +33,7 @@
             "restParams": true,
             "spread": true,
             "superInFunctions": true,
-            "templateStrings": true,
+            "templateStrings": true
         }
     },
     "rules": {
@@ -238,7 +238,7 @@
         ],
         "max-nested-callbacks": [
             2,
-            4
+            5
         ],
         "new-parens": 2,
         "no-array-constructor": 2,

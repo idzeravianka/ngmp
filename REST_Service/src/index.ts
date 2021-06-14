@@ -10,7 +10,7 @@ import { requestLogger } from './logger/request-logger';
 import { commonErrorHandler } from './middlewares';
 import { AUTH_API } from './configs/api-path-enum/auth-api.enum';
 
-const app = express();
+export const app = express();
 
 app.use(express.json());
 app.use(cors());
