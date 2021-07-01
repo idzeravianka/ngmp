@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
-import jwt from 'jsonwebtoken';
 import { User, UserModel } from '../models';
+import { UnauthorizedError } from '../custom-errors/invalid-credentials.error';
+import { AuthenticationService } from './authentication.service';
 
 const { Op } = Sequelize;
 
@@ -44,14 +45,10 @@ class UserService {
         });
     }
 
-    public async login(login: string, password: string): Promise<string | null> {
+    public async login(login: string, password: string): Promise<string | UnauthorizedError> {
         const user = await UserModel.findOne({ where: { login, password } });
-        if (!user) return null;
-        return UserService.generateToken(login);
-    }
-
-    public static generateToken(login: string): string {
-        return jwt.sign(login, process.env.SECRET_KEY as string);
+        if (!user) throw new UnauthorizedError('Invalid credentials');
+        return AuthenticationService.generateToken(login);
     }
 }
 
