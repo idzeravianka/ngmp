@@ -1,5 +1,7 @@
 import Sequelize from 'sequelize';
 import { User, UserModel } from '../models';
+import { UnauthorizedError } from '../custom-errors/invalid-credentials.error';
+import { AuthenticationService } from './authentication.service';
 
 const { Op } = Sequelize;
 
@@ -41,6 +43,12 @@ class UserService {
             ],
             raw: true
         });
+    }
+
+    public async login(login: string, password: string): Promise<string | UnauthorizedError> {
+        const user = await UserModel.findOne({ where: { login, password } });
+        if (!user) throw new UnauthorizedError('Invalid credentials');
+        return AuthenticationService.generateToken(login);
     }
 }
 
